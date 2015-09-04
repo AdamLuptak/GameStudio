@@ -39,7 +39,8 @@ public class hello2 extends HttpServlet {
 
 		if (field == null) {
 			field = new NumberTilesField(4, 4);
-			ImagePreparator.cutImage(4, 4, "D:/workspace/games1/src/main/webapp/resources/gfx/logo.png", "D:/workspace/games1/src/main/webapp/resources/gfx/puzzleImages/puz");
+			ImagePreparator.cutImage(4, 4, "D:/workspace/games1/src/main/webapp/resources/gfx/logo.png",
+					"D:/workspace/games1/src/main/webapp/resources/gfx/puzzleImages/puz");
 			request.getSession().setAttribute(FIELD_SESSION, field);
 		}
 		String mark = "";
@@ -89,7 +90,23 @@ public class hello2 extends HttpServlet {
 		}
 		String rows = request.getParameter("rows");
 		System.out.println(rows);
+		try {
+			if (!"".equals(rows) || rows != null) {
+				int riadky = Integer.parseInt(request.getParameter("rows"));
+				int stlpce = Integer.parseInt(request.getParameter("columns"));
+				
+				field = new NumberTilesField(riadky,
+						stlpce
+						);
+				ImagePreparator.cutImage(riadky, stlpce, "D:/workspace/games1/src/main/webapp/resources/gfx/logo.png",
+						"D:/workspace/games1/src/main/webapp/resources/gfx/puzzleImages/puz");
+				
+				request.getSession().setAttribute(FIELD_SESSION, field);
+				
+			}
+		} catch (Exception e) {
 
+		}
 		out.print("<div style=\"text-align: center  \">");
 		out.print(
 				"<div style=\"background-color: darkturquoise; margin-top: 0; padding-top: 1em;padding-bottom: 1em;margin-bottom: 10px;\">");
@@ -122,6 +139,8 @@ public class hello2 extends HttpServlet {
 		out.print("<form action=\"hello2\" method=\"get\">");
 		out.print(
 				"<button type=\"submit\" class=\"btn btn-success\" name=\"newGame\" value=\"2\" style=\"margin-left: 1px;margin-bottom: 1em;\" >New Game</button>");
+		out.print(
+				"<button type=\"submit\" class=\"btn btn-warning\" name=\"custom\" style=\"margin-left: 11px;margin-bottom: 1em;\">CustomGame</button>");
 		out.print("</form>");
 		out.print("	<footer>");
 		out.print("<p>Made by ©Adam Luptak, ");
@@ -132,6 +151,23 @@ public class hello2 extends HttpServlet {
 
 		out.print("</div>");
 
+		if (custom) {
+			out.print("<form action=\"hello2\" method=\"get\">");
+			out.print("<div class=\"row, text-center\" style=\"margin-top: 1em;\"; te>");
+			out.print("<div class=\"col-sm-12\" style= \"text-align: center;\">");
+			out.print(
+					"Rows count &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <input type=\"text\" name=\"rows\" maxlength=\"4\" style=\"margin-left: 20px;\"  size=\"4\"><br><br>");
+			out.print(
+					"Columns count &nbsp &nbsp <input type=\"text\" name=\"columns\" maxlength=\"4\" style=\"margin-left: 11px;\" size=\"4\"><br><br>");
+			out.print("<input type=\"submit\" class=\"btn btn-success\" value=\"Submit\">");
+			out.print("<button type=\"submit\" class=\"btn btn-danger\" style=\"margin-left: 11px;\">Cancel</button>");
+
+			out.print("</form>");
+
+			out.print("</div>");
+			out.print("</div>");
+		}
+
 		out.print("</div>");
 
 		out.print("</body>");
@@ -141,7 +177,7 @@ public class hello2 extends HttpServlet {
 	private String imageGet(NumberTile tile) {
 
 		return "puz" + Integer.toString(tile.getValue()) + ".png";
-		
+
 	}
 
 	public void afterClickMove(int buttonRow, int buttonCloumn, NumberTilesField playingField) {
@@ -173,7 +209,7 @@ public class hello2 extends HttpServlet {
 		}
 
 	}
-
+	 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub

@@ -42,9 +42,9 @@ public class UserNumberBean implements Serializable {
 		if ((userNumber == null) || (userNumber.compareTo(randomInt) != 0)) {
 			String message = null;
 			if (userNumber > randomInt) {
-				message = "Mensie cislo";
+				message = "Lower number";
 			} else {
-				message = "Vacsie cislo";
+				message = "Bigger Numer";
 			}
 			return "Sorry, " + userNumber + " is incorrect." + " " + message;
 		} else {
